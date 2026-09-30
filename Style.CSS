@@ -1,0 +1,461 @@
+/* Color Palette & CSS Variables */
+:root {
+  --rit-orange: #f76800;
+  --rit-orange-hover: #d95b00;
+  --rit-black: #111111;
+  --rit-dark-gray: #1e1e1e;
+  --rit-card-bg: #262626;
+  --rit-border: #383838;
+  --rit-text: #f0f0f0;
+  --rit-text-muted: #aaaaaa;
+  --rit-white: #ffffff;
+  --win-color: #2e7d32;
+  --loss-color: #c62828;
+  --tie-color: #f57f17;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--rit-black);
+  color: var(--rit-text);
+  line-height: 1.5;
+  padding-bottom: 30px;
+}
+
+/* Header */
+.app-header {
+  background: linear-gradient(135deg, #000000 0%, #222222 100%);
+  border-bottom: 3px solid var(--rit-orange);
+  padding: 16px;
+  text-align: center;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.rit-logo-badge {
+  background-color: var(--rit-orange);
+  color: var(--rit-white);
+  font-weight: 900;
+  font-size: 1.4rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px rgba(247, 104, 0, 0.4);
+}
+
+.header-brand h1 {
+  font-size: 1.3rem;
+  letter-spacing: 1.5px;
+  color: var(--rit-white);
+  line-height: 1.1;
+}
+
+.header-brand .subtitle {
+  font-size: 0.75rem;
+  color: var(--rit-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Navigation Tabs */
+.app-nav {
+  display: flex;
+  background-color: var(--rit-dark-gray);
+  border-bottom: 1px solid var(--rit-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--rit-text-muted);
+  padding: 12px 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.nav-btn:hover {
+  color: var(--rit-white);
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.nav-btn.active {
+  color: var(--rit-orange);
+  border-bottom-color: var(--rit-orange);
+  background-color: rgba(247, 104, 0, 0.08);
+}
+
+/* App Content Area */
+.app-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Spotlight Card (Next Game) */
+.spotlight-card {
+  background: linear-gradient(180deg, #2d2d2d 0%, #202020 100%);
+  border: 1px solid var(--rit-orange);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.spotlight-header {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--rit-orange);
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.spotlight-teams {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.spotlight-team {
+  text-align: center;
+  flex: 1;
+}
+
+.spotlight-team-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--rit-white);
+}
+
+.spotlight-vs {
+  font-size: 0.9rem;
+  color: var(--rit-orange);
+  font-weight: 900;
+  padding: 0 10px;
+}
+
+.spotlight-details {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--rit-text-muted);
+  border-top: 1px solid var(--rit-border);
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+/* Tab Panes */
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* Form Controls & Filters */
+.filter-bar, .pbp-selector-box {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-bar label, .pbp-selector-box label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--rit-text-muted);
+}
+
+.styled-select {
+  flex: 1;
+  background-color: var(--rit-card-bg);
+  color: var(--rit-white);
+  border: 1px solid var(--rit-border);
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.styled-select:focus {
+  border-color: var(--rit-orange);
+}
+
+/* Schedule Cards */
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.game-card {
+  background-color: var(--rit-card-bg);
+  border-radius: 8px;
+  border: 1px solid var(--rit-border);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.game-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--rit-text-muted);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding-bottom: 6px;
+}
+
+.location-badge {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.7rem;
+}
+
+.location-badge.home {
+  background-color: var(--rit-orange);
+  color: var(--rit-white);
+}
+
+.location-badge.away {
+  background-color: #444;
+  color: #ddd;
+}
+
+.game-card-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.opponent-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--rit-white);
+}
+
+.game-result-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.score-text {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.outcome-tag {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.outcome-tag.W { background-color: var(--win-color); color: #fff; }
+.outcome-tag.L { background-color: var(--loss-color); color: #fff; }
+.outcome-tag.T { background-color: var(--tie-color); color: #fff; }
+
+.game-card-footer {
+  font-size: 0.75rem;
+  color: var(--rit-text-muted);
+}
+
+/* Stats Overview Cards */
+.stats-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.overview-stat-card {
+  background-color: var(--rit-card-bg);
+  border: 1px solid var(--rit-border);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.overview-stat-card .stat-val {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--rit-orange);
+}
+
+.overview-stat-card .stat-lbl {
+  font-size: 0.75rem;
+  color: var(--rit-text-muted);
+  text-transform: uppercase;
+}
+
+/* Data Tables */
+.section-heading {
+  font-size: 1rem;
+  color: var(--rit-white);
+  margin: 16px 0 10px 0;
+  border-left: 3px solid var(--rit-orange);
+  padding-left: 8px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  background-color: var(--rit-card-bg);
+  border-radius: 8px;
+  border: 1px solid var(--rit-border);
+  margin-bottom: 20px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+.data-table th, .data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--rit-border);
+}
+
+.data-table th {
+  background-color: rgba(0, 0, 0, 0.3);
+  color: var(--rit-orange);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Play by Play Timeline */
+.pbp-header-card {
+  background-color: var(--rit-card-bg);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  text-align: center;
+  border: 1px solid var(--rit-border);
+}
+
+.pbp-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pbp-event {
+  background-color: var(--rit-card-bg);
+  border-left: 4px solid var(--rit-border);
+  border-radius: 0 6px 6px 0;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+}
+
+.pbp-event.GOAL {
+  border-left-color: var(--rit-orange);
+  background-color: rgba(247, 104, 0, 0.05);
+}
+
+.pbp-event.PENALTY {
+  border-left-color: #e53935;
+}
+
+.pbp-meta {
+  display: flex;
+  gap: 10px;
+  font-size: 0.75rem;
+  color: var(--rit-text-muted);
+  margin-bottom: 4px;
+}
+
+.pbp-period { font-weight: 700; }
+.pbp-time { color: var(--rit-orange); }
+
+.pbp-desc {
+  color: var(--rit-white);
+}
+
+/* Injury Report Cards */
+.injury-card {
+  background-color: var(--rit-card-bg);
+  border-radius: 8px;
+  border-left: 4px solid var(--rit-border);
+  padding: 12px;
+}
+
+.injury-card.Out { border-left-color: var(--loss-color); }
+.injury-card.Day-to-Day { border-left-color: var(--tie-color); }
+.injury-card.Probable { border-left-color: var(--win-color); }
+
+.injury-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.injury-player {
+  font-weight: 700;
+  color: var(--rit-white);
+  font-size: 0.95rem;
+}
+
+.injury-status-badge {
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.injury-status-badge.Out { background-color: rgba(198, 40, 40, 0.2); color: #ef5350; }
+.injury-status-badge.Day-to-Day { background-color: rgba(245, 127, 23, 0.2); color: #ffca28; }
+.injury-status-badge.Probable { background-color: rgba(46, 125, 50, 0.2); color: #66bb6a; }
+
+.injury-details {
+  font-size: 0.8rem;
+  color: var(--rit-text-muted);
+}
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--rit-text-muted);
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid var(--rit-border);
+}
