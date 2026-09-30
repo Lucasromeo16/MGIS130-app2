@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIT Men's Hockey Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="rit-logo-badge">RIT</div>
+      <div>
+        <h1>TIGERS HOCKEY</h1>
+        <p class="subtitle">Rochester Institute of Technology</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="app-nav">
+    <button class="nav-btn active" data-tab="schedule">Schedule</button>
+    <button class="nav-btn" data-tab="stats">Stats</button>
+    <button class="nav-btn" data-tab="playbyplay">Play-by-Play</button>
+    <button class="nav-btn" data-tab="injuries">Injuries</button>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main class="app-content">
+
+    <!-- Next Game Spotlight -->
+    <section class="spotlight-card" id="next-game-spotlight">
+      <!-- Dynamic render via JS -->
+    </section>
+
+    <!-- TAB 1: Schedule & Scores -->
+    <section class="tab-pane active" id="pane-schedule">
+      <div class="filter-bar">
+        <label for="schedule-filter">Filter:</label>
+        <select id="schedule-filter" class="styled-select">
+          <option value="ALL">All Games</option>
+          <option value="HOME">Home Only (Gene Polisseni Center)</option>
+          <option value="AWAY">Away Only</option>
+          <option value="PAST">Completed Games</option>
+          <option value="UPCOMING">Upcoming Games</option>
+        </select>
+      </div>
+
+      <div id="schedule-list" class="cards-list">
+        <!-- Dynamic Schedule Cards -->
+      </div>
+    </section>
+
+    <!-- TAB 2: Player & Team Stats -->
+    <section class="tab-pane" id="pane-stats">
+      <div class="stats-overview-grid" id="team-overview-stats">
+        <!-- Dynamic Team Overview Stats -->
+      </div>
+
+      <h2 class="section-heading">Roster & Skater Stats</h2>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Player</th>
+              <th>Pos</th>
+              <th>GP</th>
+              <th>G</th>
+              <th>A</th>
+              <th>PTS</th>
+              <th>PIM</th>
+            </tr>
+          </thead>
+          <tbody id="skater-stats-body">
+            <!-- Dynamic Skaters -->
+          </tbody>
+        </table>
+      </div>
+
+      <h2 class="section-heading">Goalie Stats</h2>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Goalie</th>
+              <th>GP</th>
+              <th>W-L-T</th>
+              <th>GAA</th>
+              <th>SV%</th>
+              <th>SO</th>
+            </tr>
+          </thead>
+          <tbody id="goalie-stats-body">
+            <!-- Dynamic Goalies -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 3: Play by Play -->
+    <section class="tab-pane" id="pane-playbyplay">
+      <div class="pbp-selector-box">
+        <label for="pbp-game-select">Select Game:</label>
+        <select id="pbp-game-select" class="styled-select">
+          <!-- Dynamic Game Options -->
+        </select>
+      </div>
+
+      <div id="pbp-game-header" class="pbp-header-card">
+        <!-- Dynamic Game Header -->
+      </div>
+
+      <div id="pbp-feed" class="pbp-timeline">
+        <!-- Dynamic Play Events -->
+      </div>
+    </section>
+
+    <!-- TAB 4: Injury & Availability Report -->
+    <section class="tab-pane" id="pane-injuries">
+      <h2 class="section-heading">Current Squad Availability</h2>
+      <div id="injury-report-list" class="cards-list">
+        <!-- Dynamic Injury Cards -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>&copy; RIT Men's Hockey Fan Hub • Gene Polisseni Center, Rochester NY</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
