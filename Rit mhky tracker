@@ -1,0 +1,354 @@
+// DATA LAYER: Stores game schedule, locations, scores, and play-by-play events.
+const gamesData = [
+    {
+        id: 1,
+        opponent: "Niagara University",
+        date: "2026-01-16",
+        time: "7:05 PM",
+        isHome: true,
+        venue: "Gene Polisseni Center",
+        completed: true,
+        ritScore: 4,
+        oppScore: 2,
+        playByPlay: [
+            { time: "P1 18:22", desc: "GOAL RIT! Scored by #11 Tyler Mahan, Assisted by #20 Christian Catalano." },
+            { time: "P1 08:15", desc: "PENALTY Niagara: 2 Min Tripping." },
+            { time: "P2 12:40", desc: "GOAL Niagara! Scored on Power Play." },
+            { time: "P2 03:10", desc: "GOAL RIT! Scored by #14 Tyler Fukakusa." },
+            { time: "P3 19:10", desc: "EMPTY NET GOAL RIT! Scored by #19 Philippe Jacques." }
+        ]
+    },
+    {
+        id: 2,
+        opponent: "Air Force Academy",
+        date: "2026-01-23",
+        time: "9:00 PM",
+        isHome: false,
+        venue: "Cadet Ice Arena",
+        completed: true,
+        ritScore: 2,
+        oppScore: 3,
+        playByPlay: [
+            { time: "P1 15:00", desc: "GOAL Air Force! Early strike." },
+            { time: "P2 10:20", desc: "GOAL RIT! Scored by #21 Carter Wilkie." },
+            { time: "P3 02:45", desc: "GOAL Air Force! Game winner scored late in P3." }
+        ]
+    },
+    {
+        id: 3,
+        opponent: "Canisius University",
+        date: "2026-02-06",
+        time: "7:05 PM",
+        isHome: true,
+        venue: "Gene Polisseni Center",
+        completed: true,
+        ritScore: 5,
+        oppScore: 1,
+        playByPlay: [
+            { time: "P1 12:00", desc: "GOAL RIT! Scored by #9 Matthew Wilde." },
+            { time: "P2 18:30", desc: "GOAL RIT! Scored by #10 Gustav Blom." },
+            { time: "P3 05:12", desc: "GOAL RIT! Power Play goal by #11 Tyler Mahan." }
+        ]
+    },
+    {
+        id: 4,
+        opponent: "Robert Morris",
+        date: "2026-10-10",
+        time: "7:05 PM",
+        isHome: true,
+        venue: "Gene Polisseni Center",
+        completed: false,
+        ritScore: null,
+        oppScore: null,
+        playByPlay: []
+    },
+    {
+        id: 5,
+        opponent: "Mercyhurst",
+        date: "2026-10-17",
+        time: "7:00 PM",
+        isHome: false,
+        venue: "Mercyhurst Ice Center",
+        completed: false,
+        ritScore: null,
+        oppScore: null,
+        playByPlay: []
+    }
+];
+
+// DATA LAYER: Stores roster information for skaters and goalies.
+const skatersData = [
+    { num: 11, name: "Tyler Mahan", pos: "F", gp: 22, g: 12, a: 11, pts: 23, pm: 8, pim: 14 },
+    { num: 14, name: "Tyler Fukakusa", pos: "F", gp: 22, g: 8, a: 14, pts: 22, pm: 5, pim: 6 },
+    { num: 21, name: "Carter Wilkie", pos: "F", gp: 20, g: 9, a: 11, pts: 20, pm: 3, pim: 18 },
+    { num: 9,  name: "Matthew Wilde", pos: "F", gp: 22, g: 10, a: 7, pts: 17, pm: 2, pim: 8 },
+    { num: 20, name: "Christian Catalano", pos: "F", gp: 19, g: 6, a: 8, pts: 14, pm: 4, pim: 10 },
+    { num: 4,  name: "Crossley Stewart", pos: "D", gp: 22, g: 2, a: 10, pts: 12, pm: 10, pim: 12 },
+    { num: 7,  name: "Tanner Adams", pos: "D", gp: 21, g: 1, a: 9, pts: 10, pm: 6, pim: 4 }
+];
+
+// DATA LAYER: Goaltender metrics.
+const goaliesData = [
+    { num: 30, name: "Tommy Scarfone", gp: 18, wins: 12, losses: 5, ties: 1, ga: 38, gaa: "2.12", sv: 480, svpct: ".927", so: 3 },
+    { num: 33, name: "Luke Lush", gp: 5, wins: 3, losses: 1, ties: 1, ga: 11, gaa: "2.35", sv: 115, svpct: ".913", so: 0 }
+];
+
+// DATA LAYER: Medical and player availability logs.
+const injuryData = [
+    { name: "Carter Wilkie", num: 21, pos: "Forward", injury: "Upper Body", status: "Day-to-Day", returnDate: "Expected next weekend" },
+    { name: "Dimitry Kebreau", num: 18, pos: "Forward", injury: "Lower Body", status: "Out", returnDate: "3-4 Weeks" }
+];
+
+// LOGIC LAYER: Calculates team wins, losses, and overall stats summary.
+function calculateTeamRecord() {
+    let wins = 0;
+    let losses = 0;
+    let gf = 0;
+    let ga = 0;
+
+    gamesData.forEach(game => {
+        if (game.completed) {
+            gf += game.ritScore;
+            ga += game.oppScore;
+            if (game.ritScore > game.oppScore) wins++;
+            else losses++;
+        }
+    });
+
+    return { wins, losses, gf, ga, totalGames: wins + losses };
+}
+
+// LOGIC LAYER: Finds the next upcoming game from the dataset.
+function getNextUpcomingGame() {
+    return gamesData.find(g => !g.completed) || gamesData[gamesData.length - 1];
+}
+
+// LOGIC LAYER: Filters games list by home/away/completed category.
+function filterGames(filterType) {
+    if (filterType === "home") return gamesData.filter(g => g.isHome);
+    if (filterType === "away") return gamesData.filter(g => !g.isHome);
+    if (filterType === "completed") return gamesData.filter(g => g.completed);
+    return gamesData;
+}
+
+// DISPLAY LAYER: Renders the top banner and next game countdown/details.
+function renderNextGameBanner() {
+    const nextGame = getNextUpcomingGame();
+    const bannerContainer = document.getElementById("next-game-banner");
+
+    if (!nextGame) return;
+
+    bannerContainer.innerHTML = `
+        <div class="banner-title">Next Matchup • ${nextGame.venue}</div>
+        <div class="banner-matchup">
+            <div class="team-box">
+                <span class="team-name">RIT Tigers</span>
+            </div>
+            <div class="vs-badge">VS</div>
+            <div class="team-box">
+                <span class="team-name">${nextGame.opponent}</span>
+            </div>
+        </div>
+        <div>
+            <p style="font-size: 0.85rem; color: #ccc;">${nextGame.date} at ${nextGame.time}</p>
+        </div>
+    `;
+}
+
+// DISPLAY LAYER: Populates the schedule view with cards based on active filter.
+function renderSchedule(filter = "all") {
+    const listContainer = document.getElementById("schedule-list");
+    const games = filterGames(filter);
+
+    listContainer.innerHTML = games.map(game => {
+        let resultClass = "upcoming";
+        let scoreText = game.time;
+
+        if (game.completed) {
+            const isWin = game.ritScore > game.oppScore;
+            resultClass = isWin ? "win" : "loss";
+            scoreText = `${isWin ? 'W' : 'L'} ${game.ritScore}-${game.oppScore}`;
+        }
+
+        return `
+            <div class="game-card ${resultClass}">
+                <div class="game-info">
+                    <span class="game-date">${game.date}</span>
+                    <span class="game-opponent">${game.isHome ? 'vs' : '@'} ${game.opponent}</span>
+                    <span class="game-location">${game.venue}</span>
+                </div>
+                <div class="game-score-box">
+                    <div class="game-result ${game.completed ? (game.ritScore > game.oppScore ? 'result-W' : 'result-L') : ''}">${scoreText}</div>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+// DISPLAY LAYER: Renders skater, goalie, and summary tables in Stats tab.
+function renderStats() {
+    const skatersBody = document.getElementById("skaters-table-body");
+    skatersBody.innerHTML = skatersData.map(s => `
+        <tr>
+            <td><strong>#${s.num}</strong></td>
+            <td>${s.name}</td>
+            <td>${s.pos}</td>
+            <td>${s.gp}</td>
+            <td>${s.g}</td>
+            <td>${s.a}</td>
+            <td><strong>${s.pts}</strong></td>
+            <td>${s.pm > 0 ? '+' + s.pm : s.pm}</td>
+            <td>${s.pim}</td>
+        </tr>
+    `).join("");
+
+    const goaliesBody = document.getElementById("goalies-table-body");
+    goaliesBody.innerHTML = goaliesData.map(g => `
+        <tr>
+            <td><strong>#${g.num}</strong></td>
+            <td>${g.name}</td>
+            <td>${g.gp}</td>
+            <td>${g.wins}-${g.losses}-${g.ties}</td>
+            <td>${g.ga}</td>
+            <td>${g.gaa}</td>
+            <td>${g.sv}</td>
+            <td>${g.svpct}</td>
+            <td>${g.so}</td>
+        </tr>
+    `).join("");
+
+    const record = calculateTeamRecord();
+    const teamSummary = document.getElementById("team-stats-summary");
+    teamSummary.innerHTML = `
+        <div class="stat-box">
+            <div class="stat-val">${record.wins}-${record.losses}-0</div>
+            <div class="stat-lbl">Record (W-L-T)</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-val">${record.gf}</div>
+            <div class="stat-lbl">Goals For</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-val">${record.ga}</div>
+            <div class="stat-lbl">Goals Against</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-val">24.5%</div>
+            <div class="stat-lbl">Power Play %</div>
+        </div>
+    `;
+}
+
+// DISPLAY LAYER: Renders roster cards.
+function renderRoster() {
+    const rosterGrid = document.getElementById("roster-grid");
+    const allPlayers = [
+        ...skatersData.map(s => ({ ...s, type: 'Skater' })),
+        ...goaliesData.map(g => ({ ...g, pos: 'G', type: 'Goalie' }))
+    ].sort((a, b) => a.num - b.num);
+
+    rosterGrid.innerHTML = allPlayers.map(p => `
+        <div class="player-card">
+            <div class="player-number">#${p.num}</div>
+            <div class="player-details">
+                <h3>${p.name}</h3>
+                <p>Position: ${p.pos}</p>
+            </div>
+        </div>
+    `).join("");
+}
+
+// DISPLAY LAYER: Handles selection and rendering of game timeline play-by-play.
+function renderPlayByPlay() {
+    const selector = document.getElementById("pbp-game-select");
+    const completedGames = gamesData.filter(g => g.completed);
+
+    selector.innerHTML = completedGames.map(g => `
+        <option value="${g.id}">vs ${g.opponent} (${g.date})</option>
+    `).join("");
+
+    const updateTimeline = (gameId) => {
+        const game = gamesData.find(g => g.id === parseInt(gameId));
+        const header = document.getElementById("pbp-game-header");
+        const timeline = document.getElementById("pbp-timeline");
+
+        header.innerHTML = `
+            <h3>RIT ${game.ritScore} - ${game.oppScore} ${game.opponent}</h3>
+            <p style="font-size: 0.8rem; color: #aaa;">${game.venue}</p>
+        `;
+
+        if (game.playByPlay.length === 0) {
+            timeline.innerHTML = `<p style="font-size: 0.85rem; color: #888;">No events recorded.</p>`;
+            return;
+        }
+
+        timeline.innerHTML = game.playByPlay.map(ev => `
+            <div class="pbp-event">
+                <span class="pbp-time">${ev.time}</span>
+                <span class="pbp-desc">${ev.desc}</span>
+            </div>
+        `).join("");
+    };
+
+    selector.addEventListener("change", (e) => updateTimeline(e.target.value));
+    if (completedGames.length > 0) updateTimeline(completedGames[0].id);
+}
+
+// DISPLAY LAYER: Renders player injuries and sets up tab switching UI listeners.
+function renderInjuries() {
+    const list = document.getElementById("injury-list");
+    list.innerHTML = injuryData.map(i => `
+        <div class="injury-card ${i.status === 'Day-to-Day' ? 'day-to-day' : ''}">
+            <div class="injury-header">
+                <h3>#${i.num} ${i.name}</h3>
+                <span class="injury-status ${i.status === 'Day-to-Day' ? 'status-dtd' : 'status-out'}">${i.status}</span>
+            </div>
+            <p style="font-size: 0.85rem;"><strong>Position:</strong> ${i.pos}</p>
+            <p style="font-size: 0.85rem;"><strong>Injury:</strong> ${i.injury}</p>
+            <p style="font-size: 0.85rem; color: var(--rit-orange); margin-top: 0.25rem;"><strong>Timeline:</strong> ${i.returnDate}</p>
+        </div>
+    `).join("");
+}
+
+// LOGIC / DISPLAY LAYER: Application Initialization and Event Binding.
+document.addEventListener("DOMContentLoaded", () => {
+    renderNextGameBanner();
+    renderSchedule();
+    renderStats();
+    renderRoster();
+    renderPlayByPlay();
+    renderInjuries();
+
+    // Tab Switcher Listener
+    document.querySelectorAll(".nav-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+            document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+
+            e.target.classList.add("active");
+            const targetTab = e.target.getAttribute("data-tab");
+            document.getElementById(`tab-${targetTab}`).classList.add("active");
+        });
+    });
+
+    // Schedule Filter Listener
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+            e.target.classList.add("active");
+            renderSchedule(e.target.getAttribute("data-filter"));
+        });
+    });
+
+    // Stats Sub-tab Switcher Listener
+    document.querySelectorAll(".sub-tab-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            document.querySelectorAll(".sub-tab-btn").forEach(b => b.classList.remove("active"));
+            document.querySelectorAll(".stat-sub-view").forEach(v => v.classList.remove("active"));
+
+            e.target.classList.add("active");
+            const targetView = e.target.getAttribute("data-stat-tab");
+            document.getElementById(`stat-${targetView}-view`).classList.add("active");
+        });
+    });
+});
